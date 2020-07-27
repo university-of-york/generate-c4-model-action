@@ -4,11 +4,11 @@ echo "Generating C4 model..."
 
 export input="$GITHUB_WORKSPACE/$2"
 export inputdir="$(dirname "$input")"
-export output="$GITHUB_WORKSPACE/build/generate-c4-model/" # TODO convert to optional input parameter
+export outputdir="$GITHUB_WORKSPACE/build/generate-c4-model/" # TODO convert to optional input parameter
 
 echo "Input file: $input"
-echo "Input directory: $inputdir"
-echo "Output location: $output"
+echo "Input location: $inputdir"
+echo "Output location: $outputdir"
 
 # TODO check input exists
 if [ ! -f "$input" ]
@@ -21,6 +21,12 @@ echo "Exporting Structurizr dsl to PlantUML format..."
 
 /structurizr-cli/structurizr.sh export -w "$input" -f "plantuml"
 
+if [$? -ne 0]
+then
+    echo "An error occurred when attempting to generate PlantUML files" >&2
+    exit $?
+fi
+
 ls *.puml
 
 if [$? -ne 0]
@@ -29,13 +35,17 @@ then
     exit $?
 fi
 
-echo "Moving plantuml files to '$output'..."
+echo "Moving PlantUML files to '$outputdir'..."
 
-mkdir -p "$output"
+mkdir -p "$outputdir"
 
-mv "$inputdir"/*.puml "$output"
+mv "$inputdir"/*.puml "$outputdir"
 
-ls -la "$output"
+echo "Generating .png images..."
+
+plantuml "$outputdir"/*.puml
+
+ls -la "$outputdir"
 
 echo "Finished"
 
