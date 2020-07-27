@@ -18,11 +18,11 @@ echo "Exporting Structurizr dsl to PlantUML format..."
 
 # TODO check files exist
 
-echo "Moving plantuml files to location '$output'..."
+echo "Moving plantuml files to '$output'..."
 
 mkdir -p "$output"
 
-mv "$inputdir/*.puml" "$output"
+mv "$inputdir/structurizr-SystemContext.puml" "$output"
 
 ls -la "$output"
 
