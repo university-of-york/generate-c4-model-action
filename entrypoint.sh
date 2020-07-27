@@ -21,15 +21,15 @@ echo "Exporting Structurizr dsl to PlantUML format..."
 
 /structurizr-cli/structurizr.sh export -w "$input" -f "plantuml"
 
-if [$? -ne 0]
+if [ $? -ne 0 ]
 then
     echo "An error occurred when attempting to generate PlantUML files" >&2
     exit $?
 fi
 
-ls *.puml
+ls "$inputdir"/*.puml
 
-if [$? -ne 0]
+if [ $? -ne 0 ]
 then
     echo "Did not generate any PlantUML files" >&2
     exit $?
