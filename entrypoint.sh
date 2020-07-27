@@ -18,7 +18,9 @@ echo "Exporting Structurizr dsl to PlantUML format..."
 
 echo "Moving plantuml files to location '$output'..."
 
-mv "/structurizr-cli/*.puml" "$output"
+mkdir "$output"
+
+mv "$input/*.puml" "$output"
 
 ls -la "$output"
 
