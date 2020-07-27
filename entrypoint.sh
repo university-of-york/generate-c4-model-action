@@ -2,6 +2,10 @@
 
 echo "Hello $1"
 
+echo "$GITHUB_WORKSPACE"
+
+echo "$2"
+
 java -version
 
 /structurizr-cli/structurizr.sh

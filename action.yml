@@ -6,6 +6,9 @@ inputs:
     description: 'Who to greet'
     required: true
     default: 'World'
+  c4-dsl-location:
+    description: 'The path to the c4 model dsl'
+    required: true
 outputs:
   time: # id of output
     description: 'The time we greeted you'
@@ -14,3 +17,4 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.who-to-greet }}
+    - ${{ inputs.c4-dsl-location }}
