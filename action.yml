@@ -8,11 +8,11 @@ inputs:
   build-dir:
     description: 'The directory to use for building the C4 model'
     required: true
-    default: ./.github/actions/build
+    default: .github/actions/build
   output-dir:
     description: 'The directory to place the C4 model artifacts'
     required: true
-    default: ./.github/actions/dist
+    default: .github/actions/dist
 runs:
   using: 'docker'
   image: 'Dockerfile'
