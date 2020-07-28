@@ -1,20 +1,22 @@
 # action.yml
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'Generate C4 Model'
+description: 'Convert a Structurizr DSL file to PlantUML image files'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  structurizr-location:
+    description: 'The path to the Structurizr dsl'
     required: true
-    default: 'World'
-  c4-dsl-location:
-    description: 'The path to the c4 model dsl'
+  build-dir:
+    description: 'The directory to use for building the C4 model'
     required: true
-outputs:
-  time: # id of output
-    description: 'The time we greeted you'
+    default: ./.github/actions/build
+  output-dir:
+    description: 'The directory to place the C4 model artifacts'
+    required: true
+    default: ./.github/actions/dist
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.who-to-greet }}
-    - ${{ inputs.c4-dsl-location }}
+    - ${{ inputs.structurizr-location }}
+    - ${{ inputs.build-dir }}
+    - ${{ inputs.output-dir }}

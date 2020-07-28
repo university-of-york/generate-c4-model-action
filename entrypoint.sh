@@ -1,53 +1,57 @@
 #!/bin/bash
 
-echo "Generating C4 model..."
+set -e
 
-export input="$GITHUB_WORKSPACE/$2"
-export inputdir="$(dirname "$input")"
-export outputdir="$GITHUB_WORKSPACE/build/generate-c4-model/" # TODO convert to optional input parameter
+echo "Generating C4 model"
 
-echo "Input file: $input"
-echo "Input location: $inputdir"
-echo "Output location: $outputdir"
+INPUT="$GITHUB_WORKSPACE/$1"
+INPUT_DIR="$(dirname "$INPUT")"
+BUILD_DIR="$GITHUB_WORKSPACE/$2"
+OUTPUT_DIR="$GITHUB_WORKSPACE/$3"
 
-# TODO check input exists
-if [ ! -f "$input" ]
-then
-    echo "Input file '$input' not found"  >&2
+if [ ! -f "$INPUT" ]; then
+    echo "Structurizr dsl file '$INPUT' not found"  >&2
     exit 1
 fi
 
-echo "Exporting Structurizr dsl to PlantUML format..."
+echo "[params]
+Structurizr dsl file: $INPUT
+Structurizr dsl dir: $INPUT_DIR
+Build dir: $BUILD_DIR
+Output dir: $OUTPUT_DIR"
 
-/structurizr-cli/structurizr.sh export -w "$input" -f "plantuml"
+echo "Exporting Structurizr dsl to PlantUML format"
 
-if [ $? -ne 0 ]
-then
+/structurizr-cli/structurizr.sh export -w "$INPUT" -f "plantuml"
+
+if [ $? -ne 0 ]; then
     echo "An error occurred when attempting to generate PlantUML files" >&2
     exit $?
 fi
 
-ls "$inputdir"/*.puml
+ls "$INPUT_DIR"/*.puml >/dev/null
 
-if [ $? -ne 0 ]
-then
+if [ $? -ne 0 ]; then
     echo "Did not generate any PlantUML files" >&2
     exit $?
 fi
 
-echo "Moving PlantUML files to '$outputdir'..."
+echo "Moving PlantUML files to '$BUILD_DIR'"
 
-mkdir -p "$outputdir"
+mkdir -p "$BUILD_DIR"
+mv "$INPUT_DIR"/*.puml "$BUILD_DIR"
 
-mv "$inputdir"/*.puml "$outputdir"
+echo "Generating .png images"
 
-echo "Generating .png images..."
+plantuml "$BUILD_DIR"/*.puml
 
-plantuml "$outputdir"/*.puml
+echo "Moving C4 images to '$OUTPUT_DIR'"
 
-ls -la "$outputdir"
+mkdir -p "$OUTPUT_DIR"
+mv "$BUILD_DIR"/*.png "$OUTPUT_DIR"
+
+ls -la "$OUTPUT_DIR"
 
 echo "Finished"
 
-time=$(date)
-echo "::set-output name=time::$time"
+exit 0
