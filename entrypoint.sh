@@ -5,7 +5,7 @@ set -e
 echo "Generating C4 model"
 
 source="$GITHUB_WORKSPACE/$1"
-source_dir="$(dirname "$INPUT")"
+source_dir="$(dirname "$source")"
 tmp_dir=$(mktemp -d -t ci-XXXXXXXXXX)
 target_dir="$GITHUB_WORKSPACE/$2"
 
