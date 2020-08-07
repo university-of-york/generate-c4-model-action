@@ -1,22 +1,18 @@
-# action.yml
-name: 'Generate C4 Model'
-description: 'Convert a Structurizr DSL file to PlantUML image files'
+name: "Generate C4 Model"
+description: "Convert a Structurizr DSL file to PlantUML image files"
+
 inputs:
-  structurizr-location:
-    description: 'The path to the Structurizr dsl'
+  source-path:
+    description: "The path to the Structurizr DSL file"
     required: true
-  build-dir:
-    description: 'The directory to use for building the C4 model'
-    required: true
-    default: .github/actions/build
-  output-dir:
-    description: 'The directory to place the C4 model artifacts'
+  target-path:
+    description: "The path to the directory in which to place the C4 model artifacts"
     required: true
     default: .github/actions/dist
+
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   args:
-    - ${{ inputs.structurizr-location }}
-    - ${{ inputs.build-dir }}
-    - ${{ inputs.output-dir }}
+    - ${{ inputs.source-path }}
+    - ${{ inputs.target-path }}
