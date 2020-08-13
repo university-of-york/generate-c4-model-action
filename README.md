@@ -1,21 +1,31 @@
-# Hello world docker action
+# Generate C4 Model
 
-This action prints "Hello World" or "Hello" + the name of a person to greet to the log.
+This action takes your [C4 model](https://c4model.com) system architecture in [Structurizr DSL](https://github.com/structurizr/dsl) format and generates [PlantUML](https://plantuml.com/) .png images for it.
 
 ## Inputs
 
-### `who-to-greet`
+### `source-path`
 
-**Required** The name of the person to greet. Default `"World"`.
+**Required** The path to the Structurizr DSL file.
 
-## Outputs
+### `target-path`
 
-### `time`
-
-The time we greeted you.
+**Required** The path to the directory in which to place the C4 model artifacts. Default `.github/actions/dist`
 
 ## Example usage
 
-uses: actions/hello-world-docker-action@v1
-with:
-  who-to-greet: 'Mona the Octocat'
+```
+- name: Generate C4 Model
+  uses:  university-of-york/generate-c4-model-action@1.0.0
+  with:
+    source-path: docs/c4-model.dsl
+    target-path: .github/actions/dist/images/c4
+```
+
+## Mentions
+
+Thanks to [Structurizr Limited](https://structurizr.com/) for the [Structurizr DSL](https://github.com/structurizr/dsl) and [Structurizr CLI](https://github.com/structurizr/cli).
+
+## Licence
+
+The scripts and documentation in this project are released under the MIT License

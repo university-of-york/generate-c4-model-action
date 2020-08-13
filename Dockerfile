@@ -1,8 +1,9 @@
-# Container image that runs your code
-FROM alpine:3.10
+FROM adoptopenjdk:11-jre-hotspot
 
-# Copies your code file from your action repository to the filesystem path `/` of the container
+RUN apt update
+RUN apt install -y plantuml
+
 COPY entrypoint.sh /entrypoint.sh
+COPY structurizr-cli /structurizr-cli
 
-# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
